@@ -6,7 +6,7 @@ from git import *
 def main(argv):
     gitFolder = ''
     try:
-        opts, args = getopt.getopt(argv,"hi:o:",["gfold="])
+        opts, args = getopt.getopt(argv,"hl:o:",["gfold="])
     except getopt.GetoptError:
         print 'test.py -l <gitFolder>'
         sys.exit(2)
@@ -25,7 +25,9 @@ def main(argv):
     
     repo = Repo(gitFolder)
     print repo
-    print repo.commits()
+
+    for x in repo.iter_commits('master'):
+        print x.message
 
 if __name__ == "__main__":
    main(sys.argv[1:])
