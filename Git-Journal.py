@@ -8,23 +8,28 @@ def main(argv):
     gitFolder = ''
     gitEmail = ''
     try:
-        opts, args = getopt.getopt(argv,"hf:e:",["gfold=","gemail"])
+        opts, args = getopt.getopt(argv,"m:hf:e:",["","gfold=","gemail="])
     except getopt.GetoptError:
         print 'Git-Journal.py -f <gitFolder> -e <gitEmail>'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
             print 'Git-Journal.py -f <gitFolder> -e <gitEmail>'
-            sys.exit()
+        elif opt in ("-m", "--"):
+            print 'Using Markdown'
         elif opt in ("-f", "--gfold"):
             gitFolder = arg
-            #print 'Git Folder is "',gitFolder,'"'
+            print 'Git Folder is "',gitFolder,'"'
         elif opt in ("-e", "--gemail"):
             gitEmail = arg
             #print 'Git Email is "',gitEmail,'"'
     
     #Set repository
-    repo = Repo(gitFolder)
+    try:
+        repo = Repo(gitFolder)
+    except InvalidGitRepositoryError:
+        print "The Git folder you entered is not a valid Git repository"
+        sys.exit(2)
 
     print "**Today in Git!** \n"
     
