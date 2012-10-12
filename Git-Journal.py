@@ -26,17 +26,21 @@ def main(argv):
     #Set repository
     repo = Repo(gitFolder)
 
+    print "**Today in Git!** \n"
+    
     for x in repo.iter_commits('master'):
         if x.author.email == gitEmail:
             commitDate = strftime("%d %b %Y", localtime(x.committed_date)) 
             today = strftime("%d %b %Y", localtime()) 
             if commitDate != today:
                 break
-            commitMsg = x.message
-            if commitMsg.endswith("\n"):
-                print commitMsg
-            else:
-                print commitMsg + "\n"
+            #make commit message italic
+            commitMsg = ""
+            for line in x.message.split('\n'):
+                if line != "": #Remove lines that are empty
+                    commitMsg += "*" + line + "*" + "\n"
+            print commitMsg
+            print "***"
 
 if __name__ == "__main__":
    main(sys.argv[1:])
