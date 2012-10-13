@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys, getopt
 from time import localtime, strftime
@@ -38,20 +38,28 @@ def main(argv):
     if markdown:
         print "**Today in Git!** \n"
     
+    messages = []
+
+    #Get the commit messages for the selected date looking at the most recent first (more efficient)
     for x in repo.iter_commits('master'):
         if x.author.email == gitEmail:
             commitDate = strftime("%d/%m/%Y", localtime(x.committed_date))
+            commitTime = strftime("%H:%M", localtime(x.committed_date))
             if commitDate == date:
-                commitMsg = ""
+                commitMsg = commitTime + "\n"
                 for line in x.message.split('\n'):
                     if line != "": #Remove lines that are empty
                         if markdown:
                             commitMsg += "*" + line + "*" + "\n"
                         else:
                             commitMsg += line + "\n"
-                print commitMsg
-                if markdown:
-                    print "***"
+                messages.append(commitMsg)
+    
+    #Print the messages in chronological order
+    for x in reversed(messages):
+        print x
+        if markdown:
+            print "***"
 
 if __name__ == "__main__":
    main(sys.argv[1:])
