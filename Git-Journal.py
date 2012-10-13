@@ -42,24 +42,33 @@ def main(argv):
 
     #Get the commit messages for the selected date looking at the most recent first (more efficient)
     for x in repo.iter_commits('master'):
-        if x.author.email == gitEmail:
+        if gitEmail == '':
+            messages.append(getMessage(x, markdown, True))
+        elif x.author.email == gitEmail:
             commitDate = strftime("%d/%m/%Y", localtime(x.committed_date))
-            commitTime = strftime("%H:%M", localtime(x.committed_date))
             if commitDate == date:
-                commitMsg = commitTime + "\n"
-                for line in x.message.split('\n'):
-                    if line != "": #Remove lines that are empty
-                        if markdown:
-                            commitMsg += "*" + line + "*" + "\n"
-                        else:
-                            commitMsg += line + "\n"
-                messages.append(commitMsg)
+                messages.append(getMessage(x, markdown, False))
     
     #Print the messages in chronological order
     for x in reversed(messages):
         print x
         if markdown:
             print "***"
+
+def getMessage(x, markdown, user):
+    commitTime = strftime("%H:%M", localtime(x.committed_date))
+    if user:
+        commitMsg = commitTime + " - " + x.author.name + "\n"
+    else:
+        commitMsg = commitTime + "\n"
+
+    for line in x.message.split('\n'):
+        if line != "": #Remove lines that are empty
+            if markdown:
+                commitMsg += "*" + line + "*" + "\n"
+            else:
+                commitMsg += line + "\n"
+    return commitMsg
 
 if __name__ == "__main__":
    main(sys.argv[1:])
