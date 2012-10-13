@@ -42,12 +42,12 @@ def main(argv):
 
     #Get the commit messages for the selected date looking at the most recent first (more efficient)
     for x in repo.iter_commits('master'):
-        if gitEmail == '':
-            messages.append(getMessage(x, markdown, True))
-        elif x.author.email == gitEmail:
-            commitDate = strftime("%d/%m/%Y", localtime(x.committed_date))
-            if commitDate == date:
-                messages.append(getMessage(x, markdown, False))
+        commitDate = strftime("%d/%m/%Y", localtime(x.committed_date))
+        if commitDate == date:
+            if gitEmail == '':
+                    messages.append(getMessage(x, markdown, True))
+            elif x.author.email == gitEmail:
+                    messages.append(getMessage(x, markdown, False))
     
     #Print the messages in chronological order
     for x in reversed(messages):
