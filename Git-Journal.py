@@ -8,9 +8,11 @@ def main(argv):
     gitFolder = ''
     gitEmail = ''
     markdown = False
+    numberMessages = 0
     date = strftime("%d/%m/%Y", localtime())
+
     try:
-        opts, args = getopt.getopt(argv,"mhf:e:d:",["gfold=","gemail=","ddate="])
+        opts, args = getopt.getopt(argv,"mhf:e:d:n:",["gfold=","gemail=","ddate=","msgNum"])
     except getopt.GetoptError:
         print 'Git-Journal.py -f <gitFolder> -e <gitEmail> -d <date DD/MM/YYYY e.g. 01/01/2012>'
         sys.exit(2)
@@ -27,7 +29,9 @@ def main(argv):
             #print 'Git Email is "',gitEmail,'"'
         elif opt in ("-d", "--ddate"):
             date = arg
-    
+        elif opt in("-n", "--msgNum"):
+            numberMessages = int(arg)
+
     #Set repository
     try:
         repo = Repo(gitFolder)
@@ -54,9 +58,13 @@ def main(argv):
 
     #Print the messages in chronological order
     for x in reversed(messages):
-        print x
-        if markdown:
-            print "***"
+        if (numberMessages != 0):
+            print x
+            if markdown:
+                print "***"
+            if numberMessages != 0:
+                numberMessages -= 1
+                print numberMessages
 
 def getMessage(x, markdown, user):
     commitTime = strftime("%H:%M", localtime(x.committed_date))
