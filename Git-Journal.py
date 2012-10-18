@@ -9,6 +9,7 @@ def main(argv):
     gitEmail = ''
     markdown = False
     numberMessages = 0
+    numberSelected = False
     date = strftime("%d/%m/%Y", localtime())
 
     try:
@@ -31,6 +32,7 @@ def main(argv):
             date = arg
         elif opt in("-n", "--msgNum"):
             numberMessages = int(arg)
+            numberSelected = True
 
     #Set repository
     try:
@@ -58,13 +60,15 @@ def main(argv):
 
     #Print the messages in chronological order
     for x in reversed(messages):
-        if (numberMessages != 0):
+        if numberSelected == False:
             print x
             if markdown:
                 print "***"
-            if numberMessages != 0:
-                numberMessages -= 1
-                print numberMessages
+        elif (numberMessages != 0):
+            print x
+            if markdown:
+                print "***"
+            numberMessages -= 1
 
 def getMessage(x, markdown, user):
     commitTime = strftime("%H:%M", localtime(x.committed_date))
