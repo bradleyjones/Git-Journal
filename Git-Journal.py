@@ -34,9 +34,6 @@ def main(argv):
     except InvalidGitRepositoryError:
         print "The Git folder you entered is not a valid Git repository"
         sys.exit(2)
-
-    if markdown:
-        print "**Today in Git!** \n"
     
     messages = []
 
@@ -49,6 +46,12 @@ def main(argv):
             elif x.author.email == gitEmail:
                     messages.append(getMessage(x, markdown, False))
     
+    if len(messages) != 0:
+        if markdown:
+            print "**Today in Git!**\n"
+        else:
+            print "Today in Git!\n"
+
     #Print the messages in chronological order
     for x in reversed(messages):
         print x
