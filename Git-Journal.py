@@ -11,9 +11,10 @@ def main(argv):
     numberMessages = 0
     numberSelected = False
     date = strftime("%d/%m/%Y", localtime())
+    recentFirst = False
 
     try:
-        opts, args = getopt.getopt(argv,"mhf:e:d:n:",["gfold=","gemail=","ddate=","msgNum"])
+        opts, args = getopt.getopt(argv,"mrhf:e:d:n:",["gfold=","gemail=","ddate=","msgNum"])
     except getopt.GetoptError:
         print 'Git-Journal.py -f <gitFolder> -e <gitEmail> -d <date DD/MM/YYYY e.g. 01/01/2012>'
         sys.exit(2)
@@ -22,6 +23,8 @@ def main(argv):
             print 'Git-Journal.py -f <gitFolder> -e <gitEmail> -d <date DD/MM/YYYY e.g. 01/01/2012>'
         elif opt == '-m':
             markdown = True
+        elif opt == '-r':
+            recentFirst = True
         elif opt in ("-f", "--gfold"):
             gitFolder = arg
             #print 'Git Folder is "',gitFolder,'"'
@@ -58,8 +61,13 @@ def main(argv):
         else:
             print "Today in Git!\n"
 
+    if recentFirst == False:
+        msgs = reversed(messages)
+    elif recentFirst == True:
+        msgs = messages
+
     #Print the messages in chronological order
-    for x in reversed(messages):
+    for x in msgs:
         if numberSelected == False:
             print x
             if markdown:
