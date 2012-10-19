@@ -56,10 +56,16 @@ def main(argv):
                     messages.append(getMessage(x, markdown, False))
     
     if len(messages) != 0:
-        if markdown:
-            print "**Today in Git!**\n"
+        listFolder = gitFolder.split('/')
+        if listFolder[len(listFolder) - 1] == '':
+            repoName = listFolder[len(listFolder) - 2] 
         else:
-            print "Today in Git!\n"
+            repoName = listFolder[len(listFolder) - 1] 
+            
+        if markdown:
+            print "**Today in " + repoName + "!**\n"
+        else:
+            print "Today in " + repoName + "!\n"
 
     if recentFirst == False:
         msgs = reversed(messages)
