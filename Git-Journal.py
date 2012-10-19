@@ -61,11 +61,11 @@ def main(argv):
             repoName = listFolder[len(listFolder) - 2] 
         else:
             repoName = listFolder[len(listFolder) - 1] 
-            
+
         if markdown:
-            print "**Today in " + repoName + "!**\n"
+            print "\n**Today in " + repoName + "!**\n"
         else:
-            print "Today in " + repoName + "!\n"
+            print "\nToday in " + repoName + "!\n"
 
     if recentFirst == False:
         msgs = reversed(messages)
