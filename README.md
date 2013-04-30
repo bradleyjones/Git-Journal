@@ -14,6 +14,8 @@ GitPython library - `easy_install gitpython`
 
 `-m` : Sets whether markdown should be used to format the result 
 
+`-r` : Show the most recent commits first
+
 `-f <gitFolder>` : The location of the git repository on your local machine
 
 `-e <gitEmail>` : The email address of the account you want to get commit messages from
