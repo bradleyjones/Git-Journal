@@ -56,7 +56,7 @@ def main(argv):
                     messages.append(getMessage(x, markdown, False))
     
     if len(messages) != 0:
-        listFolder = gitFolder.split('/')
+        listFolder = repo.working_dir.split('/')
         if listFolder[len(listFolder) - 1] == '':
             repoName = listFolder[len(listFolder) - 2] 
         else:

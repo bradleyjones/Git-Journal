@@ -19,3 +19,5 @@ GitPython library - `easy_install gitpython`
 `-e <gitEmail>` : The email address of the account you want to get commit messages from
 
 `-d <date>` : The date you want the commit messages from
+
+`-n <msgs>` : The number of commit messages you want to display
